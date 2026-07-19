@@ -20,7 +20,7 @@ namespace WebApplication.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         // A DbContext instance represents a session with the database and can be used to query and save instances of your entities. DbContext is a combination of the Unit Of Work and Repository patterns.
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
         // To get some data from appsettings.json.
         private readonly IConfiguration _configuration;

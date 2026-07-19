@@ -1,0 +1,24 @@
+@WebApplication_HostAddress = http://localhost:5001
+
+### Register User
+POST {{WebApplication_HostAddress}}/api/authentication/register-user
+Content-Type: application/json
+
+{
+  "firstName": "Khusan",
+  "lastName": "Rashidov",
+  "emailAddress": "xkhusan@gmail.com",
+  "userName": "xkhusan",
+  "passWord": "KateK8Kane*"
+}
+
+###
+
+### Login User
+POST {{WebApplication_HostAddress}}/api/authentication/login-user
+Content-Type: application/json
+
+{
+  "emailAddress": "xkhusan@gmail.com",
+  "passWord": "KateK8Kane*"
+}

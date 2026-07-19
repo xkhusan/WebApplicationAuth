@@ -32,7 +32,7 @@ namespace WebApplication
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add MS Identity.
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>() // Arguments are AddIdentity<TUser, TRole>(null).
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -44,7 +44,7 @@ namespace WebApplication
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
                 // JWT bearer authentication performs authentication by extracting and validating a JWT token from the Authorization request header.
-            .AddJwtBearer(options => // Add JWT Bearer.
+            .AddJwtBearer(options => // Add JWT Bearer (JWT validating mechanism).
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false; // Disabled for development purposes to allow HTTP requests.
@@ -69,11 +69,11 @@ namespace WebApplication
             }
             else
             {
-                app.UseHsts();
+                app.UseHsts(); // Adds middleware for using HSTS, which adds the Strict-Transport-Security header.
             }
 
             // When 'Configure for HTTPS' was enabled during project creation.
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); // Adds middleware for redirecting HTTP Requests to HTTPS.
 
             app.UseRouting();
 
