@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebApplication.Migrations
+namespace WebApplicationAuth.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityTableAdded : Migration
+    public partial class AddedIdentityTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

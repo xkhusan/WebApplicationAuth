@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Diagnostics;
-using WebApplication.DataBase;
-using WebApplication.DataBase.Models;
-using WebApplication.ViewModels;
+using WebApplicationAuth.Api.DataBase;
+using WebApplicationAuth.Api.DataBase.Models;
+using WebApplicationAuth.Api.ViewModels;
 
-namespace WebApplication.Controllers
+namespace WebApplicationAuth.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

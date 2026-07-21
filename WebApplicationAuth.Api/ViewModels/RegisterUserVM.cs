@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication.ViewModels
+namespace WebApplicationAuth.Api.ViewModels
 {
     public class RegisterUserVM
     {

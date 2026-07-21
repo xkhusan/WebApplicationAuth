@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using WebApplication.DataBase;
-using WebApplication.DataBase.Models;
+using WebApplicationAuth.Api.DataBase;
+using WebApplicationAuth.Api.DataBase.Models;
 
-namespace WebApplication
+namespace WebApplicationAuth.Api
 {
     public class Program
     {

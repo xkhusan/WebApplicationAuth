@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication.DataBase;
+using WebApplicationAuth.Api.DataBase;
 
 #nullable disable
 
-namespace WebApplication.Migrations
+namespace WebApplicationAuth.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260507174140_IdentityTableAdded")]
-    partial class IdentityTableAdded
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +155,7 @@ namespace WebApplication.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebApplication.DataBase.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WebApplicationAuth.Api.DataBase.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -243,7 +240,7 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WebApplication.DataBase.Models.ApplicationUser", null)
+                    b.HasOne("WebApplicationAuth.Api.DataBase.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +249,7 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WebApplication.DataBase.Models.ApplicationUser", null)
+                    b.HasOne("WebApplicationAuth.Api.DataBase.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -267,7 +264,7 @@ namespace WebApplication.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication.DataBase.Models.ApplicationUser", null)
+                    b.HasOne("WebApplicationAuth.Api.DataBase.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +273,7 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WebApplication.DataBase.Models.ApplicationUser", null)
+                    b.HasOne("WebApplicationAuth.Api.DataBase.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
