@@ -6,7 +6,6 @@ namespace WebApplicationAuth.Api.ViewModels
     {
         [Required]
         public string EmailAddress { get; set; } = null!;
-
         [Required]
         public string PassWord { get; set; } = null!;
     }
