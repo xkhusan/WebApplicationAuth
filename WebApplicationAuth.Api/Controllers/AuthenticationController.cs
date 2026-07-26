@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using System.Diagnostics;
 using WebApplicationAuth.Api.DataBase;
 using WebApplicationAuth.Api.DataBase.Models;
+using WebApplicationAuth.Api.Services;
 using WebApplicationAuth.Api.ViewModels;
 
 namespace WebApplicationAuth.Api.Controllers
@@ -25,59 +23,61 @@ namespace WebApplicationAuth.Api.Controllers
         // To get some data from appsettings.json.
         private readonly IConfiguration _configuration;
 
+        private readonly AuthorizationService _authorizationService;
+
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             AppDbContext context,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            AuthorizationService authorizationService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
             _configuration = configuration;
+            _authorizationService = authorizationService;
         }
 
         [HttpPost("register-user")]
         public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterUserVM registerUserVM)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (await _userManager.FindByEmailAsync(registerUserVM.EmailAddress) is not null)
-            {
                 return BadRequest($"User {registerUserVM.EmailAddress} already exists.");
-            }
 
-            if ((await _userManager.CreateAsync(new ApplicationUser()
+            var user = new ApplicationUser()
             {
                 FirstName = registerUserVM.FirstName,
                 LastName = registerUserVM.LastName,
                 Email = registerUserVM.EmailAddress,
                 UserName = registerUserVM.UserName,
                 SecurityStamp = Guid.NewGuid().ToString(),
-            }, registerUserVM.PassWord)).Succeeded)
-            {
-                return Ok("User created.");
-            }
+            };
 
-            return BadRequest("User could not be created.");
+            var result = await _userManager.CreateAsync(user, registerUserVM.PassWord);
+
+            if (result.Succeeded)
+                return Ok("User created.");
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("login-user")]
         public async Task<IActionResult> LoginUserAsync([FromBody] LoginUserVM loginUserVM)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var userExists = await _userManager.FindByEmailAsync(loginUserVM.EmailAddress);
 
-            if (userExists != null && await _userManager.CheckPasswordAsync(userExists, loginUserVM.PassWord))
+            var user = await _userManager.FindByEmailAsync(loginUserVM.EmailAddress);
+
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginUserVM.PassWord))
             {
-                return Ok("User signed in.");
+                var token = await _authorizationService.GenerateJWTTokenAsync(user); // TODO: maybe rename to accessToken in future.
+                return Ok(token);
             }
 
             return Unauthorized();

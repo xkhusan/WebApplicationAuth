@@ -5,12 +5,12 @@ namespace WebApplicationAuth.Api.ViewModels
     public class RegisterUserVM
     {
         public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
+        public string LastName { get; set; } = string.Empty;
         [Required]
-        public string EmailAddress { get; set; } = null!;
+        public required string EmailAddress { get; set; }
         [Required]
-        public string UserName { get; set; } = null!;
+        public required string UserName { get; set; }
         [Required]
-        public string PassWord { get; set; } = null!;
+        public required string PassWord { get; set; }
     }
 }

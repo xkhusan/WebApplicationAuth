@@ -5,8 +5,8 @@ namespace WebApplicationAuth.Api.ViewModels
     public class LoginUserVM
     {
         [Required]
-        public string EmailAddress { get; set; } = null!;
+        public required string EmailAddress { get; set; }
         [Required]
-        public string PassWord { get; set; } = null!;
+        public required string PassWord { get; set; }
     }
 }

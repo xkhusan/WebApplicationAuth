@@ -3,7 +3,6 @@
 ### Register User
 POST {{WebApplication_HostAddress}}/api/authentication/register-user
 Content-Type: application/json
-
 {
   "firstName": "Khusan",
   "lastName": "Rashidov",
@@ -12,13 +11,15 @@ Content-Type: application/json
   "passWord": "KateK8Kane*"
 }
 
-###
-
 ### Login User
+# @name login
 POST {{WebApplication_HostAddress}}/api/authentication/login-user
 Content-Type: application/json
-
 {
   "emailAddress": "xkhusan@gmail.com",
   "passWord": "KateK8Kane*"
 }
+
+### Get Home Index
+GET {{WebApplication_HostAddress}}/api/home
+Authorization: Bearer {{login.response.body.$.token}}

@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplicationAuth.Api.DataBase;
 using WebApplicationAuth.Api.DataBase.Models;
+using WebApplicationAuth.Api.Services;
 
 namespace WebApplicationAuth.Api
 {
@@ -43,7 +44,7 @@ namespace WebApplicationAuth.Api
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                // JWT bearer authentication performs authentication by extracting and validating a JWT token from the Authorization request header.
+            // JWT bearer authentication performs authentication by extracting and validating a JWT token from the Authorization request header.
             .AddJwtBearer(options => // Add JWT Bearer (JWT validating mechanism).
             {
                 options.SaveToken = true;
@@ -58,6 +59,8 @@ namespace WebApplicationAuth.Api
                     ValidIssuer = builder.Configuration["JWT:Issuer"],
                 };
             });
+
+            builder.Services.AddScoped<AuthorizationService>();
 
             var app = builder.Build();
 
