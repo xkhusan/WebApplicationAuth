@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplicationAuth.Api.DataBase;
 using WebApplicationAuth.Api.DataBase.Models;
 using WebApplicationAuth.Api.Services;
 using WebApplicationAuth.Api.ViewModels;
@@ -17,9 +16,6 @@ namespace WebApplicationAuth.Api.Controllers
         // RoleManager provides the APIs for managing roles in a persistence store (in our case we are not using custom role like ApplicationUser derived from IdentityUser but Identity Role).
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        // A DbContext instance represents a session with the database and can be used to query and save instances of your entities. DbContext is a combination of the Unit Of Work and Repository patterns.
-        private readonly AppDbContext _context;
-
         // To get some data from appsettings.json.
         private readonly IConfiguration _configuration;
 
@@ -28,13 +24,11 @@ namespace WebApplicationAuth.Api.Controllers
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            AppDbContext context,
             IConfiguration configuration,
             AuthorizationService authorizationService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _context = context;
             _configuration = configuration;
             _authorizationService = authorizationService;
         }
@@ -76,7 +70,7 @@ namespace WebApplicationAuth.Api.Controllers
 
             if (user != null && await _userManager.CheckPasswordAsync(user, loginUserVM.PassWord))
             {
-                var token = await _authorizationService.GenerateJWTTokenAsync(user); // TODO: maybe rename to accessToken in future.
+                var token = await _authorizationService.GenerateJWTTokenAsync(user);
                 return Ok(token);
             }
 

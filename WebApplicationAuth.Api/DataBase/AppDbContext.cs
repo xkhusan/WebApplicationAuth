@@ -8,7 +8,8 @@ namespace WebApplicationAuth.Api.DataBase
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
         }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

@@ -2,15 +2,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebApplicationAuth.Api.DataBase;
 using WebApplicationAuth.Api.DataBase.Models;
 using WebApplicationAuth.Api.ViewModels;
 
 namespace WebApplicationAuth.Api.Services
 {
-    public class AuthorizationService
+    public class AuthorizationService(IConfiguration configuration, AppDbContext dbContext, TokenValidationParameters tokenValidationParameters)
     {
-        private readonly IConfiguration _configuration;
-        public AuthorizationService(IConfiguration configuration) => _configuration = configuration;
+        private readonly IConfiguration _configuration = configuration;
+        // A DbContext instance represents a session with the database and can be used to query and save instances of your entities. DbContext is a combination of the Unit Of Work and Repository patterns.
+        private readonly AppDbContext _dbContext = dbContext;
+        private readonly TokenValidationParameters _tokenValidationParameters = tokenValidationParameters;
 
         public async Task<AuthResultVM> GenerateJWTTokenAsync(ApplicationUser user)
         {
@@ -35,9 +38,23 @@ namespace WebApplicationAuth.Api.Services
 
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
+            var refreshToken = new RefreshToken()
+            {
+                JwtId = token.Id,
+                IsRevoked = false,
+                UserId = user?.Id!,
+                CreatedAt = DateTimeOffset.UtcNow,
+                ExpiresAt = DateTimeOffset.UtcNow.AddMonths(8),
+                Token = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString(),
+            };
+
+            await _dbContext.RefreshTokens.AddAsync(refreshToken);
+            await _dbContext.SaveChangesAsync();
+
             var authResult = new AuthResultVM()
             {
-                Token = jwtToken,
+                AccessToken = jwtToken,
+                RefreshToken = refreshToken.Token,
                 ExpiresAt = token.ValidTo,
             };
 

@@ -15,7 +15,19 @@ namespace WebApplicationAuth.Api
         {
             var builder = global::Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            var tokenValidationParamaters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JWT:Secret"]!)),
+                ValidateAudience = true,
+                ValidAudience = builder.Configuration["JWT:Audience"],
+                ValidateIssuer = true,
+                ValidIssuer = builder.Configuration["JWT:Issuer"],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero // No tolerance, if not set, the default clock skew is TimeSpan.FromMinutes(5);.
+            };
+
+            // Add services to the IoC container.
 
             builder.Services.AddControllers();
 
@@ -49,19 +61,13 @@ namespace WebApplicationAuth.Api
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false; // Disabled for development purposes to allow HTTP requests.
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JWT:Secret"]!)),
-                    ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:Audience"],
-                    ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWT:Issuer"],
-                    ClockSkew = TimeSpan.Zero // No tolerance, if not set, the default clock skew is TimeSpan.FromMinutes(5);.
-                };
+                options.TokenValidationParameters = tokenValidationParamaters;
             });
 
+            // Register services in the DI container.
+
             builder.Services.AddScoped<AuthorizationService>();
+            builder.Services.AddSingleton(tokenValidationParamaters);
 
             var app = builder.Build();
 
