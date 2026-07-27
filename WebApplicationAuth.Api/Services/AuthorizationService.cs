@@ -28,7 +28,7 @@ namespace WebApplicationAuth.Api.Services
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
-                expires: DateTimeOffset.UtcNow.AddMinutes(1).UtcDateTime,
+                expires: DateTimeOffset.UtcNow.AddMinutes(8).UtcDateTime,
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );

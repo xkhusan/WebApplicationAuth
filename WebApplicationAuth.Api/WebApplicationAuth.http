@@ -1,4 +1,5 @@
-@WebApplication_HostAddress = http://localhost:5001
+#@WebApplication_HostAddress = http://localhost:5001
+@WebApplication_HostAddress = https://localhost:7270
 
 ### Register User
 POST {{WebApplication_HostAddress}}/api/authentication/register-user

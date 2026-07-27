@@ -6,12 +6,12 @@ namespace WebApplicationAuth.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize] // Specifies that the class or method that this attribute is applied to requires the specified authorization.
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
     }
 }

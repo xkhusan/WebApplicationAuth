@@ -57,6 +57,7 @@ namespace WebApplicationAuth.Api
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ClockSkew = TimeSpan.Zero // No tolerance, if not set, the default clock skew is TimeSpan.FromMinutes(5);.
                 };
             });
 
@@ -77,6 +78,7 @@ namespace WebApplicationAuth.Api
 
             // When 'Configure for HTTPS' was enabled during project creation.
             app.UseHttpsRedirection(); // Adds middleware for redirecting HTTP Requests to HTTPS.
+            // If above is commented, we can check token authorization for HTTP requests as well, otherwise we can check it only with HTTPS requests.
 
             app.UseRouting();
 
