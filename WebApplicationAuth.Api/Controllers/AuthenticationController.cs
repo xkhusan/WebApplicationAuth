@@ -76,5 +76,12 @@ namespace WebApplicationAuth.Api.Controllers
 
             return Unauthorized();
         }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] TokenRequestVM tokenRequestVM)
+        {
+            var result = await _authorizationService.VerifyAndGenerateTokenAsync(tokenRequestVM);
+            return Ok();
+        }
     }
 }

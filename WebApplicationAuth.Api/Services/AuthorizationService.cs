@@ -60,5 +60,10 @@ namespace WebApplicationAuth.Api.Services
 
             return authResult;
         }
+
+        public async Task<AuthResultVM> VerifyAndGenerateTokenAsync(TokenRequestVM tokenRequestVM)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
