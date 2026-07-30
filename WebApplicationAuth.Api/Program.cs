@@ -74,6 +74,7 @@ namespace WebApplicationAuth.Api
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                // Register Swagger.
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
