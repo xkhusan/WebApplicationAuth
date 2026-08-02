@@ -21,6 +21,27 @@ Content-Type: application/json
   "passWord": "KateK8Kane*"
 }
 
-### Get Home Index
+### Refresh Token
+# @name refresh
+POST {{WebApplication_HostAddress}}/api/authentication/refresh-token
+Content-Type: application/json
+{
+  "accessToken": "{{login.response.body.$.accessToken}}",
+  "refreshToken": "{{login.response.body.$.refreshToken}}"
+}
+
+### Get Home Index with AccessToken
 GET {{WebApplication_HostAddress}}/api/home
-Authorization: Bearer {{login.response.body.$.accesstoken}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Get Home Index with RefreshToken
+GET {{WebApplication_HostAddress}}/api/home
+Authorization: Bearer {{refresh.response.body.$.accessToken}}
+
+### Refresh Token
+POST {{WebApplication_HostAddress}}/api/authentication/refresh-token
+Content-Type: application/json
+{
+  "accessToken": "{{refresh.response.body.$.accessToken}}",
+  "refreshToken": "{{refresh.response.body.$.refreshToken}}"
+}

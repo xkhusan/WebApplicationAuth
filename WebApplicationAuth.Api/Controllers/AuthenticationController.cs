@@ -70,7 +70,7 @@ namespace WebApplicationAuth.Api.Controllers
 
             if (user != null && await _userManager.CheckPasswordAsync(user, loginUserVM.PassWord))
             {
-                var token = await _authorizationService.GenerateJWTTokenAsync(user);
+                var token = await _authorizationService.GenerateJWTTokenAsync(user, null);
                 return Ok(token);
             }
 
@@ -81,7 +81,7 @@ namespace WebApplicationAuth.Api.Controllers
         public async Task<IActionResult> RefreshTokenAsync([FromBody] TokenRequestVM tokenRequestVM)
         {
             var result = await _authorizationService.VerifyAndGenerateTokenAsync(tokenRequestVM);
-            return Ok();
+            return Ok(result);
         }
     }
 }
