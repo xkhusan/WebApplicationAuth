@@ -9,7 +9,8 @@ Content-Type: application/json
   "lastName": "Rashidov",
   "emailAddress": "xkhusan@gmail.com",
   "userName": "xkhusan",
-  "passWord": "KateK8Kane*"
+  "passWord": "KateK8Kane*",
+  "userRole": "Student"
 }
 
 ### Login User
@@ -30,15 +31,27 @@ Content-Type: application/json
   "refreshToken": "{{login.response.body.$.refreshToken}}"
 }
 
-### Get Home Index with AccessToken
+### Home Index with AccessToken
 GET {{WebApplication_HostAddress}}/api/home
 Authorization: Bearer {{login.response.body.$.accessToken}}
 
-### Get Home Index with RefreshToken
+### Home Index with RefreshToken
 GET {{WebApplication_HostAddress}}/api/home
 Authorization: Bearer {{refresh.response.body.$.accessToken}}
 
-### Refresh Token
+### Students Index
+GET {{WebApplication_HostAddress}}/api/students
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Managements Index
+GET {{WebApplication_HostAddress}}/api/managements
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Remove Manager
+DELETE {{WebApplication_HostAddress}}/api/managements/manager
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### Refresh Token Again
 POST {{WebApplication_HostAddress}}/api/authentication/refresh-token
 Content-Type: application/json
 {

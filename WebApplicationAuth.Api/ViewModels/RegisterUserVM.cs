@@ -12,5 +12,7 @@ namespace WebApplicationAuth.Api.ViewModels
         public required string UserName { get; set; }
         [Required]
         public required string PassWord { get; set; }
+        [Required]
+        public required string UserRole { get; set; }
     }
 }

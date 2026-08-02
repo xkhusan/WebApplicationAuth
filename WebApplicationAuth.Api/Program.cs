@@ -11,7 +11,7 @@ namespace WebApplicationAuth.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = global::Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
@@ -71,6 +71,9 @@ namespace WebApplicationAuth.Api
 
             var app = builder.Build();
 
+            // Feed the DB.
+            await AuthDbInitializer.SeedRolesToDbAsync(app);
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -96,7 +99,7 @@ namespace WebApplicationAuth.Api
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
