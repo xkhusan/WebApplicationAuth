@@ -1,1 +1,23 @@
 # WebApplicationAuth
+
+appsettings.json
+```
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=K8;Initial Catalog=WebApplicationAuthDB;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True"
+  },
+  "JWT": {
+    "Secret": "this-is-just-a-strong-at-least-16-chars-string-key-which-used-to-create-or-generate-encrypt-token",
+    "Audience": "user",
+    "Issuer": "https://localhost:44397/"
+  }
+}
+
+```
